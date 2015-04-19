@@ -1,0 +1,17 @@
+[package]
+name = "tojson_macros"
+version = "0.1.0"
+authors = ["Ning Sun <sunng@about.me>"]
+description = "A simple syntax extension generates default ToJson impl"
+license = "MIT"
+keywords = ["serialize", "json", "handlebars"]
+homepage = "https://github.com/sunng87/tojson_macros"
+repository = "https://github.com/sunng87/tojson_macros"
+readme = "README.md"
+
+[lib]
+name = "tojson_macros"
+plugin = true
+
+[dev-dependencies]
+rustc-serialize = "*"

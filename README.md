@@ -29,6 +29,9 @@ struct Person {
     name: String,
     age: u8
 }
+
+let p = Person { name: "Ning".to_string(), age: 28u8 };
+println!("{}", p.to_json());
 ```
 
 ## License

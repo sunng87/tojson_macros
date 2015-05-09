@@ -17,11 +17,12 @@ fn expand_derive_tojson(ct: &mut ExtCtxt, span: Span, _: &ast::MetaItem,
                         item: &ast::Item, push: &mut FnMut(P<ast::Item>)) {
     if let ast::ItemStruct(ref struct_def, _) = item.node {
         let struct_name = item.ident;
-        let conv_body: Vec<P<ast::Stmt>> = struct_def.fields.iter().map(|field| {
+        let conv_body: Vec<P<ast::Expr>> = struct_def.fields.iter().map(|field| {
             if let ast::NamedField(name, _) = field.node.kind {
                 let name_str = name.as_str();
-                quote_stmt!(ct,
-                            __container.insert($name_str.to_string(), self.$name.to_json())).unwrap()
+                quote_expr!(ct, {
+                    __container.insert($name_str.to_string(), self.$name.to_json());
+                })
             } else {
                 ct.span_fatal(span, "#[derive(ToJson)] doesn't support simple struct for now");
             }
@@ -31,7 +32,7 @@ fn expand_derive_tojson(ct: &mut ExtCtxt, span: Span, _: &ast::MetaItem,
                                     impl ::rustc_serialize::json::ToJson for $struct_name {
                                         fn to_json(&self) -> ::rustc_serialize::json::Json {
                                             let mut __container = ::std::collections::BTreeMap::new();
-                                            $conv_body
+                                            $conv_body;
                                             ::rustc_serialize::json::Json::Object(__container)
                                         }
                                     }).unwrap();

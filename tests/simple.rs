@@ -21,4 +21,7 @@ fn test_gen () {
     println!("{}", pj);
     assert_eq!(Json::String("Vidar Kjartansson".to_string()),
                *pj.find("name").unwrap());
+    assert_eq!(Json::U64(25), *pj.find("age").unwrap());
+    assert_eq!(Json::String("Iceland".to_string()),
+               *pj.find("nationality").unwrap());
 }

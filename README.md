@@ -1,6 +1,6 @@
 # tojson_macros
 
-This is a Rust syntax extension generates default `ToJson`
+This is a Rust syntax extension generates default `::rustc_serialize::json::ToJson`
 implementation for you.
 
 [![](http://meritbadge.herokuapp.com/tojson_macros)](https://crates.io/crates/tojson_macros)

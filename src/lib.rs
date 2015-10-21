@@ -18,7 +18,7 @@ fn expand_derive_tojson(ct: &mut ExtCtxt, span: Span, _: &ast::MetaItem,
     if let Annotatable::Item(ref item) = *item {
         if let ast::ItemStruct(ref struct_def, _) = item.node {
             let struct_name = item.ident;
-            let conv_body: Vec<P<ast::Expr>> = struct_def.fields.iter().map(|field| {
+            let conv_body: Vec<P<ast::Expr>> = struct_def.fields().map(|field| {
                 if let ast::NamedField(name, _) = field.node.kind {
                     let name_str = name.name.as_str();
                     quote_expr!(ct, {

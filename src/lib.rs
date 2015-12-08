@@ -1,7 +1,7 @@
 #![feature(custom_derive, quote, plugin, plugin_registrar, rustc_private)]
 
 #[macro_use]
-extern crate rustc;
+extern crate rustc_plugin;
 #[macro_use]
 extern crate syntax;
 
@@ -11,7 +11,7 @@ use syntax::ast;
 use syntax::codemap::Span;
 use syntax::ext::base::{ExtCtxt, Annotatable};
 use syntax::ptr::P;
-use rustc::plugin::Registry;
+use rustc_plugin::Registry;
 
 fn expand_derive_tojson(ct: &mut ExtCtxt, span: Span, _: &ast::MetaItem,
                         item: &Annotatable, push: &mut FnMut(Annotatable)) {
@@ -29,7 +29,6 @@ fn expand_derive_tojson(ct: &mut ExtCtxt, span: Span, _: &ast::MetaItem,
                 }
             }).collect();
             let impl_item = quote_item!(ct,
-                                        #[automatically_derived]
                                         impl ::rustc_serialize::json::ToJson for $struct_name {
                                             fn to_json(&self) -> ::rustc_serialize::json::Json {
                                                 let mut __container = ::std::collections::BTreeMap::new();

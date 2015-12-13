@@ -1,7 +1,8 @@
 # tojson_macros
 
 This is a Rust syntax extension generates default `::rustc_serialize::json::ToJson`
-implementation for you.
+implementation for you. Note that this library relies on libsyntax
+which is only available in nightly channel.
 
 [![](http://meritbadge.herokuapp.com/tojson_macros)](https://crates.io/crates/tojson_macros)
 [![Build Status](https://travis-ci.org/sunng87/tojson_macros.svg?branch=master)](https://travis-ci.org/sunng87/tojson_macros)
@@ -9,7 +10,7 @@ implementation for you.
 ## Crate
 
 ```toml
-tojson_macros = "*"
+tojson_macros = "^0.2"
 ```
 
 ## Example

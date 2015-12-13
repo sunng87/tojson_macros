@@ -9,6 +9,7 @@ use syntax::ext::base::MultiDecorator;
 use syntax::parse::token;
 use syntax::ast;
 use syntax::codemap::Span;
+use syntax::ext::build::AstBuilder;
 use syntax::ext::base::{ExtCtxt, Annotatable};
 use syntax::ptr::P;
 use rustc_plugin::Registry;
@@ -16,8 +17,14 @@ use rustc_plugin::Registry;
 fn expand_derive_tojson(ct: &mut ExtCtxt, span: Span, _: &ast::MetaItem,
                         item: &Annotatable, push: &mut FnMut(Annotatable)) {
     if let Annotatable::Item(ref item) = *item {
-        if let ast::ItemStruct(ref struct_def, _) = item.node {
+        if let ast::ItemStruct(ref struct_def, ref generics) = item.node {
             let struct_name = item.ident;
+
+            let lifetimes: Vec<ast::Lifetime> = generics.lifetimes.iter().map(|ld| ld.lifetime).collect();
+            let generic_parameters: Vec<P<ast::Ty>> = generics.ty_params.iter().map(|ty| ct.ty_ident(span, ty.ident)).collect();
+            let struct_ty = ct.ty_path(ct.path_all(span, false, vec![struct_name], lifetimes, generic_parameters, Vec::new()));
+            let where_clause = generics.clone().where_clause;
+
             let conv_body: Vec<P<ast::Expr>> = struct_def.fields().iter().map(|field| {
                 if let ast::NamedField(name, _) = field.node.kind {
                     let name_str = name.name.as_str();
@@ -29,7 +36,7 @@ fn expand_derive_tojson(ct: &mut ExtCtxt, span: Span, _: &ast::MetaItem,
                 }
             }).collect();
             let impl_item = quote_item!(ct,
-                                        impl ::rustc_serialize::json::ToJson for $struct_name {
+                                        impl $generics ::rustc_serialize::json::ToJson for $struct_ty $where_clause {
                                             fn to_json(&self) -> ::rustc_serialize::json::Json {
                                                 let mut __container = ::std::collections::BTreeMap::new();
                                                 $conv_body;
@@ -37,6 +44,7 @@ fn expand_derive_tojson(ct: &mut ExtCtxt, span: Span, _: &ast::MetaItem,
                                             }
                                         }).unwrap();
 
+            //println!("{}", syntax::print::pprust::item_to_string(&impl_item));
             push(Annotatable::Item(impl_item));
         } else {
             ct.span_err(span, "#[derive(ToJson)] is only valid for struct");

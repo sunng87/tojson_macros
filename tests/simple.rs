@@ -12,6 +12,12 @@ struct Person {
     nationality: Option<String>
 }
 
+#[derive(ToJson)]
+struct Person2<'a, T> where T: ToJson {
+    name: &'a str,
+    age: T
+}
+
 #[test]
 fn test_gen () {
     let p = Person { name: "Vidar Kjartansson".to_string(), age: 25,
@@ -24,4 +30,12 @@ fn test_gen () {
     assert_eq!(Json::U64(25), *pj.find("age").unwrap());
     assert_eq!(Json::String("Iceland".to_string()),
                *pj.find("nationality").unwrap());
+
+    let p2_name = "Solvi Ottesen";
+    let p2 = Person2::<u8> {name: p2_name, age: 31};
+    let pj2 = p2.to_json();
+    println!("{}", p2.to_json());
+
+    assert_eq!(Json::String("Solvi Ottesen".to_string()), *pj2.find("name").unwrap());
+    assert_eq!(Json::U64(31), *pj2.find("age").unwrap());
 }

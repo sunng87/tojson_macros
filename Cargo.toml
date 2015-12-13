@@ -1,6 +1,6 @@
 [package]
 name = "tojson_macros"
-version = "0.1.6"
+version = "0.2.0"
 authors = ["Ning Sun <sunng@about.me>"]
 description = "A simple syntax extension generates default ToJson impl"
 license = "MIT"

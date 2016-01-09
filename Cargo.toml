@@ -1,9 +1,9 @@
 [package]
 name = "tojson_macros"
-version = "0.2.0"
+version = "0.2.1"
 authors = ["Ning Sun <sunng@about.me>"]
 description = "A simple syntax extension generates default ToJson impl"
-license = "MIT"
+license = "MIT/Apache-2.0"
 keywords = ["serialize", "json", "handlebars"]
 homepage = "https://github.com/sunng87/tojson_macros"
 repository = "https://github.com/sunng87/tojson_macros"

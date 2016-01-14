@@ -29,7 +29,7 @@ fn expand_derive_tojson(ct: &mut ExtCtxt, span: Span, _: &ast::MetaItem,
                 if let ast::NamedField(name, _) = field.node.kind {
                     let name_str = name.name.as_str();
                     quote_expr!(ct, {
-                        __container.insert($name_str.to_string(), self.$name.to_json());
+                        __container.insert($name_str.to_owned(), self.$name.to_json());
                     })
                 } else {
                     ct.span_fatal(span, "#[derive(ToJson)] doesn't support simple struct for now");

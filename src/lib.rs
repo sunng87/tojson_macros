@@ -17,7 +17,7 @@ use rustc_plugin::Registry;
 fn expand_derive_tojson(ct: &mut ExtCtxt, span: Span, _: &ast::MetaItem,
                         item: &Annotatable, push: &mut FnMut(Annotatable)) {
     if let Annotatable::Item(ref item) = *item {
-        if let ast::ItemStruct(ref struct_def, ref generics) = item.node {
+        if let ast::ItemKind::Struct(ref struct_def, ref generics) = item.node {
             let struct_name = item.ident;
 
             let lifetimes: Vec<ast::Lifetime> = generics.lifetimes.iter().map(|ld| ld.lifetime).collect();

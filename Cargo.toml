@@ -1,6 +1,6 @@
 [package]
 name = "tojson_macros"
-version = "0.2.2"
+version = "0.2.3"
 authors = ["Ning Sun <sunng@about.me>"]
 description = "A simple syntax extension generates default ToJson impl"
 license = "MIT/Apache-2.0"
@@ -14,4 +14,4 @@ name = "tojson_macros"
 plugin = true
 
 [dev-dependencies]
-rustc-serialize = "*"
+rustc-serialize = "^0.3.18"

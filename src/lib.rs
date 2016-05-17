@@ -26,10 +26,10 @@ fn expand_derive_tojson(ct: &mut ExtCtxt, span: Span, _: &ast::MetaItem,
             let where_clause = generics.clone().where_clause;
 
             let conv_body: Vec<P<ast::Expr>> = struct_def.fields().iter().map(|field| {
-                if let ast::NamedField(name, _) = field.node.kind {
-                    let name_str = name.name.as_str();
+                if let Some(ident) = field.ident {
+                    let name_str = ident.name.as_str();
                     quote_expr!(ct, {
-                        __container.insert($name_str.to_owned(), self.$name.to_json());
+                        __container.insert($name_str.to_owned(), self.$ident.to_json());
                     })
                 } else {
                     ct.span_fatal(span, "#[derive(ToJson)] doesn't support simple struct for now");

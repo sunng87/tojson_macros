@@ -11,7 +11,12 @@ readme = "README.md"
 
 [lib]
 name = "tojson_macros"
-plugin = true
+rustc-macro = true
+test = false
+
+[dependencies]
+syn = "0.8"
+quote = "0.2"
 
 [dev-dependencies]
 rustc-serialize = "^0.3.18"

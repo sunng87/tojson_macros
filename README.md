@@ -1,8 +1,8 @@
 # tojson_macros
 
 This is a Rust syntax extension generates default `::rustc_serialize::json::ToJson`
-implementation for you. Note that this library relies on libsyntax
-which is only available in nightly channel.
+implementation for you. This library now uses macros 1.1 for code
+generation. However it still requires rust nightly to build on.
 
 [![](http://meritbadge.herokuapp.com/tojson_macros)](https://crates.io/crates/tojson_macros)
 [![Build Status](https://travis-ci.org/sunng87/tojson_macros.svg?branch=master)](https://travis-ci.org/sunng87/tojson_macros)
@@ -10,16 +10,19 @@ which is only available in nightly channel.
 ## Crate
 
 ```toml
-tojson_macros = "^0.2"
+tojson_macros = "^0.3"
 ```
 
 ## Example
 
-Simply add `#[derive(ToJson)]` to your struct.
+Simply add `#[derive(ToJson)]` to your struct. Currently only Struct
+is supported.
 
 ```rust
-#![feature(custom_derive, plugin)]
-#![plugin(tojson_macros)]
+#![feature(rustc_macro)]
+
+#[macro_use]
+extern crate tojson_macros;
 
 extern crate rustc_serialize;
 

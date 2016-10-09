@@ -19,7 +19,7 @@ Simply add `#[derive(ToJson)]` to your struct. Currently only Struct
 is supported.
 
 ```rust
-#![feature(rustc_macro)]
+#![feature(proc_macro)]
 
 #[macro_use]
 extern crate tojson_macros;

@@ -11,7 +11,7 @@ readme = "README.md"
 
 [lib]
 name = "tojson_macros"
-rustc-macro = true
+proc-macro = true
 test = false
 
 [dependencies]

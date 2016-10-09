@@ -1,17 +1,17 @@
-#![feature(rustc_macro, rustc_macro_lib)]
+#![feature(proc_macro, proc_macro_lib)]
 
 #[macro_use]
 extern crate quote;
 
-extern crate rustc_macro;
+extern crate proc_macro;
 extern crate syn;
 
 use syn::Body::Struct;
 use syn::VariantData;
 use quote::Tokens;
-use rustc_macro::TokenStream;
+use proc_macro::TokenStream;
 
-#[rustc_macro_derive(ToJson)]
+#[proc_macro_derive(ToJson)]
 pub fn derive_serialize(input: TokenStream) -> TokenStream {
     let source = input.to_string();
 

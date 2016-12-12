@@ -39,12 +39,10 @@ pub fn derive_serialize(input: TokenStream) -> TokenStream {
               .collect();
 
     let res = quote! {
-        #ast
-
         impl #generics ::rustc_serialize::json::ToJson for #name #generics #where_clause {
             fn to_json(&self) -> ::rustc_serialize::json::Json {
                 let mut __container = ::std::collections::BTreeMap::new();
-                #(field_to_json;)*
+                #(#field_to_json;)*
                 ::rustc_serialize::json::Json::Object(__container)
             }
         }
